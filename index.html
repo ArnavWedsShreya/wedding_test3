@@ -1,483 +1,964 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shreya & Arnav - A Royal Union</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Cinzel:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* CSS Variables for Dynamic Theming */
+        :root {
+            --primary-gold: #D4AF37;
+            --secondary-gold: #F7DC6F;
+            --accent-gold: #B8860B;
+            --royal-red: #8B0000;
+            --deep-red: #5C0000;
+            --burgundy: #722F37;
+            --rose-gold: #E8B4B8;
+            --cream: #FFF8DC;
+            --ivory: #FFFFF0;
+            --champagne: #F7E7CE;
+            --emerald: #50C878;
+            --sapphire: #0F52BA;
+            --amethyst: #9966CC;
+            --pearl: #F8F6F0;
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --shadow-medium: rgba(0, 0, 0, 0.2);
+            --shadow-heavy: rgba(0, 0, 0, 0.4);
+            --gradient-primary: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            --gradient-royal: linear-gradient(135deg, var(--royal-red), var(--burgundy));
+            --gradient-pearl: linear-gradient(135deg, var(--pearl), var(--ivory));
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --royal-red: #8B0000;
-            --gold: #D4AF37;
-            --peacock-blue: #0F4C81;
-            --peacock-green: #016064;
-            --cream: #FFF8DC;
-            --dark-red: #5C0000;
-        }
-
         body {
-            font-family: 'Cormorant Garamond', serif;
-            color: var(--dark-red);
+            font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
+            background: var(--pearl);
+            color: var(--deep-red);
+            scroll-behavior: smooth;
         }
 
-        /* Full Screen Hero with Parallax */
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--pearl);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-primary);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-gold);
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-royal);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 1s ease-out;
+        }
+
+        .loading-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-mandala {
+            width: 120px;
+            height: 120px;
+            border: 4px solid transparent;
+            border-top: 4px solid var(--primary-gold);
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .loading-mandala::before {
+            content: '🕉️';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: var(--primary-gold);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--primary-gold);
+            font-weight: 600;
+            letter-spacing: 2px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Hero Section with Advanced Parallax */
         .hero-section {
-            height: 200vh;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 120%;
+            height: 120%;
+            background: url('hero-image-new.jpg') center/cover no-repeat;
+            transition: transform 0.1s ease-out;
+            filter: brightness(0.7) contrast(1.1);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                rgba(139, 0, 0, 0.6) 0%, 
+                rgba(212, 175, 55, 0.3) 50%, 
+                rgba(139, 0, 0, 0.6) 100%);
+        }
+
+        /* Floating Ganesh with Advanced Animation */
+        .floating-ganesh {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            text-align: center;
+            opacity: 1;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .floating-ganesh.fade-out {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-50px) scale(0.8);
+        }
+
+        .ganesh-symbol {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.8));
+        }
+
+        .ganesh-mantra {
+            font-family: 'Cinzel', serif;
+            font-size: 28px;
+            color: var(--primary-gold);
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            margin-bottom: 10px;
+        }
+
+        .ganesh-translation {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            color: var(--secondary-gold);
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Hero Content with Cinematic Entrance */
+        .hero-content {
+            position: relative;
+            z-index: 50;
+            text-align: center;
+            color: white;
+            max-width: 900px;
+            padding: 0 20px;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: heroEnter 2s ease-out 1s forwards;
+        }
+
+        @keyframes heroEnter {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-family: 'Dancing Script', cursive;
+            font-size: 32px;
+            color: var(--secondary-gold);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .hero-names {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(48px, 8vw, 120px);
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 30px 0;
+            letter-spacing: 4px;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .hero-date {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            color: var(--ivory);
+            font-weight: 500;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+        }
+
+        .hero-invitation {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            color: var(--champagne);
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            font-weight: 300;
+        }
+
+        /* Scroll Indicator with Premium Animation */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--primary-gold);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-indicator:hover {
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        .scroll-text {
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .scroll-arrow {
+            font-size: 24px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 15px 0;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .navbar.visible {
+            transform: translateY(0);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--royal-red);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: var(--deep-red);
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-item a:hover {
+            color: var(--primary-gold);
+        }
+
+        .nav-item a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-item a:hover::after {
+            width: 100%;
+        }
+
+        /* Section Transitions */
+        .section {
+            padding: 100px 20px;
             position: relative;
             overflow: hidden;
         }
 
-        .hero-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: url('hero-image.jpg') center/cover no-repeat;
-            z-index: 1;
-            transition: all 0.1s ease-out;
-        }
-
-        /* Ganesh Section - Appears on Scroll */
-        .ganesh-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 15px 20px;
-            background: linear-gradient(135deg, rgba(139, 0, 0, 0.95) 0%, rgba(92, 0, 0, 0.95) 100%);
-            border-bottom: 3px solid var(--gold);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            z-index: 100;
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
             opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.5s ease-out;
-            pointer-events: none;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
         }
 
-        .ganesh-overlay.visible {
+        .section-header.animate {
             opacity: 1;
             transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        .ganesh-overlay::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(212, 175, 55, 0.1) 10px,
-                rgba(212, 175, 55, 0.1) 20px
-            );
-            pointer-events: none;
-        }
-
-        .ganesh-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .ganesh-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid var(--gold);
-            object-fit: cover;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
-        }
-
-        .ganesh-text {
-            color: var(--gold);
-            font-size: 18px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-            font-family: 'Cinzel', serif;
-        }
-
-        /* Welcome Message - Appears on Scroll */
-        .welcome-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 50;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.8s ease-out;
-            pointer-events: none;
-            padding: 0 20px;
-        }
-
-        .welcome-message.visible {
-            opacity: 1;
-        }
-
-        .welcome-box {
-            background: rgba(255, 248, 220, 0.95);
-            border: 4px solid var(--gold);
-            padding: 50px 60px;
-            border-radius: 15px;
-            box-shadow: 0 0 50px rgba(212, 175, 55, 0.6);
-            position: relative;
-        }
-
-        .decorative-corner {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            border: 3px solid var(--gold);
-        }
-
-        .top-left {
-            top: 10px;
-            left: 10px;
-            border-right: none;
-            border-bottom: none;
-        }
-
-        .top-right {
-            top: 10px;
-            right: 10px;
-            border-left: none;
-            border-bottom: none;
-        }
-
-        .bottom-left {
-            bottom: 10px;
-            left: 10px;
-            border-right: none;
-            border-top: none;
-        }
-
-        .bottom-right {
-            bottom: 10px;
-            right: 10px;
-            border-left: none;
-            border-top: none;
-        }
-
-        .welcome-text {
-            font-family: 'Great Vibes', cursive;
-            font-size: 56px;
-            color: var(--royal-red);
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .couple-names-welcome {
-            font-family: 'Cinzel', serif;
-            font-size: 48px;
-            color: var(--peacock-blue);
-            font-weight: 700;
-            letter-spacing: 3px;
-        }
-
-        .wedding-date-location {
-            font-family: 'Cinzel', serif;
-            font-size: 20px;
-            color: var(--dark-red);
-            font-weight: 600;
-            letter-spacing: 2px;
-            margin-top: 20px;
-        }
-
-        .divider {
-            width: 200px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            margin: 20px auto;
-        }
-
-        /* Content Sections */
-        .content-wrapper {
-            position: relative;
-            z-index: 10;
-            background: linear-gradient(135deg, #f5e6d3 0%, var(--cream) 100%);
         }
 
         .section-title {
-            font-family: 'Cinzel', serif;
-            font-size: 42px;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: 700;
+            color: var(--royal-red);
+            margin-bottom: 20px;
             position: relative;
-            display: inline-block;
         }
 
-        .section-title-hindi {
-            font-size: 38px;
-            display: block;
-            margin-bottom: 5px;
+        .section-subtitle {
+            font-family: 'Dancing Script', cursive;
+            font-size: 28px;
+            color: var(--primary-gold);
+            font-weight: 600;
+            margin-bottom: 30px;
         }
 
-        .section-title::before,
-        .section-title::after {
-            content: '❖';
+        .section-divider {
+            width: 100px;
+            height: 4px;
+            background: var(--gradient-primary);
+            margin: 0 auto;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .section-divider::before,
+        .section-divider::after {
+            content: '❋';
             position: absolute;
-            font-size: 24px;
-            top: 50%;
-            transform: translateY(-50%);
+            top: -8px;
+            color: var(--primary-gold);
+            font-size: 20px;
         }
 
-        .section-title::before {
-            left: -40px;
+        .section-divider::before {
+            left: -30px;
         }
 
-        .section-title::after {
-            right: -40px;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 50px;
+        .section-divider::after {
+            right: -30px;
         }
 
         /* Meet The Couple Section */
         .couple-section {
-            padding: 80px 20px;
-            background: linear-gradient(135deg, var(--peacock-blue) 0%, var(--peacock-green) 100%);
-            border-top: 5px solid var(--gold);
-            border-bottom: 5px solid var(--gold);
+            background: var(--gradient-pearl);
+            position: relative;
         }
 
-        .couple-section .section-title {
-            color: var(--gold);
-        }
-
-        .couple-section .section-title::before,
-        .couple-section .section-title::after {
-            color: var(--gold);
+        .couple-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23D4AF37" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23D4AF37" opacity="0.1"/><circle cx="50" cy="10" r="1" fill="%23D4AF37" opacity="0.1"/><circle cx="10" cy="90" r="1" fill="%23D4AF37" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+            pointer-events: none;
         }
 
         .couple-container {
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 60px;
-            margin-top: 50px;
+            position: relative;
+            z-index: 2;
         }
 
         .person-card {
-            background: rgba(255, 255, 255, 0.1);
-            border: 3px solid var(--gold);
-            padding: 40px;
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            padding: 50px 40px;
             text-align: center;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
+            box-shadow: 0 20px 60px var(--shadow-light);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(50px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .person-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .person-card:hover::before {
+            left: 100%;
+        }
+
+        .person-card.animate {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .person-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+            transform: translateY(-20px) scale(1.02);
+            box-shadow: 0 30px 80px var(--shadow-medium);
         }
 
         .person-photo {
-            width: 250px;
-            height: 250px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
-            border: 5px solid var(--gold);
             object-fit: cover;
             margin: 0 auto 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 6px solid var(--primary-gold);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s ease;
         }
 
-        .person-title {
+        .person-card:hover .person-photo {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.6);
+        }
+
+        .person-role {
             font-family: 'Cinzel', serif;
-            font-size: 28px;
-            color: var(--gold);
-            margin-bottom: 20px;
-            text-transform: uppercase;
+            font-size: 18px;
+            color: var(--primary-gold);
+            font-weight: 600;
             letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
         }
 
         .person-name {
-            font-family: 'Alex Brush', cursive;
-            font-size: 60px;
-            color: var(--cream);
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--royal-red);
             margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        .parents-info {
+        .parents-section {
             margin-top: 30px;
             padding-top: 30px;
-            border-top: 2px solid var(--gold);
+            border-top: 2px solid var(--primary-gold);
         }
 
         .parents-label {
-            font-size: 18px;
-            color: var(--gold);
-            margin-bottom: 15px;
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            color: var(--accent-gold);
             font-weight: 600;
-            text-transform: uppercase;
+            margin-bottom: 15px;
             letter-spacing: 1px;
         }
 
         .parent-name {
-            font-size: 22px;
-            color: var(--cream);
-            margin: 10px 0;
-            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            color: var(--deep-red);
+            margin: 8px 0;
+            font-weight: 500;
         }
 
-        /* Wedding Functions Section */
+        /* Wedding Functions with Swipe Gestures */
         .functions-section {
-            padding: 80px 20px;
-            background: linear-gradient(135deg, #f5e6d3 0%, var(--cream) 100%);
+            background: var(--gradient-royal);
+            color: white;
+            position: relative;
         }
 
-        .functions-section .section-title {
-            color: var(--royal-red);
-        }
-
-        .functions-section .section-title::before,
-        .functions-section .section-title::after {
-            color: var(--royal-red);
+        .functions-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('wedding-functions-bg.jpg') center/cover no-repeat;
+            opacity: 0.1;
+            pointer-events: none;
         }
 
         .functions-container {
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
 
-        .function-card {
-            background: white;
-            margin: 40px 0;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            border: 3px solid var(--gold);
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.6s ease-out;
+        .functions-slider {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .functions-track {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .function-slide {
+            min-width: 100%;
+            padding: 60px 40px;
             text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
         }
 
-        .function-card.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .function-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(212, 175, 55, 0.1) 0%, 
+                rgba(255, 255, 255, 0.05) 50%, 
+                rgba(212, 175, 55, 0.1) 100%);
+            pointer-events: none;
         }
 
-        .function-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.25);
+        .function-icon {
+            font-size: 60px;
+            margin-bottom: 30px;
+            color: var(--secondary-gold);
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
         }
 
         .function-name {
-            font-family: 'Cinzel', serif;
-            font-size: 42px;
-            color: var(--royal-red);
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--secondary-gold);
             margin-bottom: 20px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
         .function-date {
-            font-size: 28px;
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            color: var(--ivory);
             font-weight: 600;
-            color: var(--peacock-blue);
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .function-time {
-            font-size: 22px;
-            color: var(--dark-red);
-            font-style: italic;
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            color: var(--champagne);
+            font-weight: 400;
+            margin-bottom: 30px;
         }
 
-        /* Countdown Section */
+        .function-description {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            color: var(--ivory);
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* Slider Controls */
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+            gap: 20px;
+        }
+
+        .slider-btn {
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--primary-gold);
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--primary-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 20px;
+        }
+
+        .slider-btn:hover {
+            background: var(--primary-gold);
+            color: var(--royal-red);
+            transform: scale(1.1);
+        }
+
+        .slider-dots {
+            display: flex;
+            gap: 10px;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slider-dot.active {
+            background: var(--primary-gold);
+            transform: scale(1.2);
+        }
+
+        /* Swipe Gesture Indicator */
+        .swipe-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--secondary-gold);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .swipe-icon {
+            font-size: 18px;
+            animation: swipeHint 2s ease-in-out infinite;
+        }
+
+        @keyframes swipeHint {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            background: var(--gradient-pearl);
+            position: relative;
+        }
+
+        .timeline-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--gradient-primary);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .timeline-item.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+            transform: translateX(50px);
+        }
+
+        .timeline-item:nth-child(even).animate {
+            transform: translateX(0);
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px var(--shadow-light);
+            margin: 0 40px;
+            position: relative;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 0;
+            height: 0;
+            border: 15px solid transparent;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            right: -30px;
+            border-left-color: white;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            left: -30px;
+            border-right-color: white;
+        }
+
+        .timeline-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            z-index: 10;
+            position: relative;
+        }
+
+        .timeline-date {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            color: var(--primary-gold);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .timeline-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--royal-red);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .timeline-description {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            color: var(--deep-red);
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        /* Countdown Section with 3D Effects */
         .countdown-section {
-            padding: 80px 20px;
+            background: var(--gradient-royal);
+            color: white;
             text-align: center;
-            background: linear-gradient(135deg, var(--royal-red) 0%, var(--dark-red) 100%);
-            border-top: 5px solid var(--gold);
-            border-bottom: 5px solid var(--gold);
+            position: relative;
+            overflow: hidden;
         }
 
-        .countdown-section .section-title {
-            color: var(--gold);
+        .countdown-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 70%, rgba(212, 175, 55, 0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(212, 175, 55, 0.2) 0%, transparent 50%);
+            pointer-events: none;
         }
 
-        .countdown-section .section-title::before,
-        .countdown-section .section-title::after {
-            color: var(--gold);
+        .countdown-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
 
         .countdown-timer {
-            display: flex;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 30px;
-            flex-wrap: wrap;
-            margin-top: 30px;
+            margin-top: 50px;
         }
 
         .countdown-item {
             background: rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--gold);
-            padding: 25px 35px;
-            border-radius: 10px;
-            min-width: 120px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            padding: 40px 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .countdown-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            animation: rotate 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .countdown-item:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: var(--primary-gold);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
         }
 
         .countdown-number {
+            font-family: 'Playfair Display', serif;
             font-size: 48px;
-            font-weight: 700;
-            color: var(--gold);
-            font-family: 'Cinzel', serif;
+            font-weight: 800;
+            color: var(--secondary-gold);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
         }
 
         .countdown-label {
-            font-size: 18px;
-            color: var(--cream);
-            margin-top: 10px;
-            text-transform: uppercase;
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            color: var(--ivory);
+            font-weight: 500;
             letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
         }
 
-        /* Our Story Section */
+        /* Story Section with Parallax */
         .story-section {
-            padding: 100px 20px;
-            position: relative;
-            overflow: hidden;
-            min-height: 600px;
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
+            position: relative;
+            overflow: hidden;
         }
 
         .story-bg {
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('our-story-image.jpg') center/cover no-repeat;
-            filter: brightness(0.6);
+            width: 120%;
+            height: 120%;
+            background: url('our-story.jpg') center/cover no-repeat;
+            filter: brightness(0.4) contrast(1.2);
+            transition: transform 0.1s ease-out;
         }
 
         .story-overlay {
@@ -486,126 +967,56 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, rgba(1, 96, 100, 0.7), rgba(139, 0, 0, 0.7));
+            background: linear-gradient(135deg, 
+                rgba(139, 0, 0, 0.8) 0%, 
+                rgba(212, 175, 55, 0.4) 50%, 
+                rgba(139, 0, 0, 0.8) 100%);
         }
 
         .story-content {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-            background: rgba(255, 248, 220, 0.95);
-            padding: 60px 50px;
-            border: 4px solid var(--gold);
-            border-radius: 15px;
-            box-shadow: 0 0 50px rgba(212, 175, 55, 0.6);
+            max-width: 800px;
+            margin: 0 auto;
             text-align: center;
+            position: relative;
+            z-index: 10;
+            padding: 60px 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
         }
 
         .story-title {
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             font-size: 48px;
-            color: var(--royal-red);
-            margin-bottom: 10px;
-        }
-
-        .story-title-hindi {
-            font-size: 42px;
-            color: var(--peacock-blue);
-            display: block;
-            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--secondary-gold);
+            margin-bottom: 30px;
         }
 
         .story-text {
-            font-size: 24px;
-            line-height: 2;
-            color: var(--dark-red);
-            font-style: italic;
-        }
-
-        /* Blessings Section */
-        .blessings-section {
-            padding: 100px 20px;
-            position: relative;
-            overflow: hidden;
-            min-height: 600px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .blessings-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('blessings-bg.jpg') center/cover no-repeat;
-            filter: brightness(0.5);
-        }
-
-        .blessings-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(139, 0, 0, 0.7) 0%, rgba(15, 76, 129, 0.6) 100%);
-        }
-
-        .blessings-content {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-            background: rgba(255, 248, 220, 0.95);
-            padding: 60px 50px;
-            border: 4px solid var(--gold);
-            border-radius: 15px;
-            box-shadow: 0 0 50px rgba(212, 175, 55, 0.6);
-            text-align: center;
-        }
-
-        .blessings-title {
-            font-family: 'Cinzel', serif;
-            font-size: 48px;
-            color: var(--royal-red);
-            margin-bottom: 10px;
-        }
-
-        .blessings-title-hindi {
-            font-size: 42px;
-            color: var(--peacock-blue);
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .blessings-text {
-            font-size: 24px;
-            line-height: 2;
-            color: var(--dark-red);
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            color: var(--ivory);
+            line-height: 1.8;
+            font-weight: 300;
             margin-bottom: 20px;
         }
 
-        .blessings-invite {
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--peacock-blue);
-            margin-top: 30px;
+        .story-quote {
+            font-family: 'Dancing Script', cursive;
+            font-size: 32px;
+            color: var(--primary-gold);
+            font-weight: 600;
             font-style: italic;
+            margin-top: 30px;
         }
 
-        /* Venue Section */
+        /* Venue Section with Interactive Maps */
         .venue-section {
-            padding: 80px 20px;
-            background: linear-gradient(135deg, #f5e6d3 0%, var(--cream) 100%);
-        }
-
-        .venue-section .section-title {
-            color: var(--royal-red);
-        }
-
-        .venue-section .section-title::before,
-        .venue-section .section-title::after {
-            color: var(--royal-red);
+            background: var(--gradient-pearl);
+            position: relative;
         }
 
         .venue-container {
@@ -613,212 +1024,271 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
+            gap: 50px;
         }
 
         .venue-card {
             background: white;
-            border: 4px solid var(--gold);
-            padding: 50px 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px var(--shadow-light);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0;
             transform: translateY(50px);
-            transition: all 0.6s ease-out;
-            text-align: center;
         }
 
-        .venue-box.visible {
+        .venue-card.animate {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .venue-box:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.25);
+        .venue-card:hover {
+            transform: translateY(-20px) scale(1.02);
+            box-shadow: 0 30px 80px var(--shadow-medium);
         }
 
-        .venue-dates {
-            font-family: 'Cinzel', serif;
-            font-size: 32px;
-            color: var(--royal-red);
-            margin-bottom: 30px;
-            font-weight: 700;
+        .venue-image {
+            width: 100%;
+            height: 250px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .venue-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .venue-card:hover .venue-image::before {
+            left: 100%;
+        }
+
+        .venue-content {
+            padding: 40px 30px;
+            text-align: center;
         }
 
         .venue-name {
-            font-family: 'Cinzel', serif;
-            font-size: 28px;
-            color: var(--peacock-blue);
-            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--royal-red);
             margin-bottom: 20px;
         }
 
         .venue-address {
-            font-size: 20px;
-            color: var(--dark-red);
-            line-height: 1.8;
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            color: var(--deep-red);
+            line-height: 1.6;
             margin-bottom: 30px;
+            font-weight: 400;
         }
 
-        .map-button {
-            display: inline-block;
-            padding: 15px 40px;
-            background: linear-gradient(135deg, var(--peacock-blue), var(--peacock-green));
+        .venue-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: var(--gradient-primary);
             color: white;
             text-decoration: none;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 18px;
-            border: 2px solid var(--gold);
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
             transition: all 0.3s ease;
-            font-family: 'Cinzel', serif;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
         }
 
-        .map-button:hover {
-            background: linear-gradient(135deg, var(--gold), #c99a2e);
-            color: var(--dark-red);
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+        .venue-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
         }
 
         /* RSVP Section */
         .rsvp-section {
-            padding: 80px 20px;
-            background: linear-gradient(135deg, var(--peacock-green) 0%, var(--peacock-blue) 100%);
+            background: var(--gradient-royal);
+            color: white;
             text-align: center;
-            border-top: 5px solid var(--gold);
-            border-bottom: 5px solid var(--gold);
+            position: relative;
         }
 
-        .rsvp-section .section-title {
-            color: var(--gold);
-        }
-
-        .rsvp-section .section-title::before,
-        .rsvp-section .section-title::after {
-            color: var(--gold);
+        .rsvp-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
 
         .rsvp-text {
-            font-size: 24px;
-            color: var(--cream);
-            margin: 30px auto;
-            max-width: 700px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            color: var(--ivory);
             line-height: 1.8;
+            margin-bottom: 50px;
+            font-weight: 300;
         }
 
-        .phone-numbers {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
             margin-top: 40px;
         }
 
-        .phone-card {
+        .contact-card {
             background: rgba(255, 255, 255, 0.1);
-            border: 3px solid var(--gold);
-            padding: 30px 40px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px 30px;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .phone-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-            background: rgba(255, 255, 255, 0.15);
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transition: left 0.6s ease;
         }
 
-        .phone-label {
-            font-size: 20px;
-            color: var(--gold);
-            margin-bottom: 15px;
+        .contact-card:hover::before {
+            left: 100%;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .contact-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            color: var(--secondary-gold);
+            margin-bottom: 15px;
         }
 
-        .phone-link {
-            display: inline-block;
-            font-size: 28px;
-            color: var(--cream);
-            text-decoration: underline;
-            text-underline-offset: 6px;
-            text-decoration-thickness: 2px;
-            font-weight: 700;
-            font-family: 'Cinzel', serif;
-            transition: all 0.3s ease;
+        .contact-phone {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            color: var(--ivory);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
         }
 
-        .phone-link:hover {
-            color: var(--gold);
-            transform: scale(1.1);
+        .contact-phone:hover {
+            color: var(--primary-gold);
         }
 
         /* Footer */
         .footer {
-            background: linear-gradient(135deg, var(--royal-red) 0%, var(--dark-red) 100%);
-            padding: 50px 20px;
+            background: var(--deep-red);
+            color: var(--ivory);
             text-align: center;
-            color: var(--gold);
-            border-top: 5px solid var(--gold);
+            padding: 60px 20px 40px;
+            position: relative;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-hashtag {
+            font-family: 'Dancing Script', cursive;
+            font-size: 36px;
+            color: var(--primary-gold);
+            font-weight: 600;
+            margin-bottom: 20px;
         }
 
         .footer-text {
-            font-size: 28px;
-            font-family: 'Cinzel', serif;
-            margin-bottom: 20px;
-            letter-spacing: 3px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            color: var(--champagne);
+            line-height: 1.6;
+            font-weight: 300;
         }
 
-        .footer-love {
-            font-family: 'Caveat', cursive;
-            font-size: 42px;
-            color: var(--gold);
+        /* Floating Elements */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            color: var(--rose-gold);
+            font-size: 20px;
+            opacity: 0.6;
+            animation: floatUp 8s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
-            .ganesh-text {
-                font-size: 14px;
-                letter-spacing: 1px;
+            .nav-menu {
+                display: none;
             }
 
-            .ganesh-img {
-                width: 30px;
-                height: 30px;
+            .hero-names {
+                font-size: 48px;
             }
 
-            .welcome-text {
-                font-size: 36px;
+            .ganesh-symbol {
+                font-size: 60px;
             }
 
-            .couple-names-welcome {
-                font-size: 32px;
-            }
-
-            .wedding-date-location {
-                font-size: 16px;
-            }
-
-            .welcome-box {
-                padding: 30px 25px;
+            .ganesh-mantra {
+                font-size: 20px;
             }
 
             .section-title {
-                font-size: 28px;
-            }
-
-            .section-title-hindi {
-                font-size: 26px;
-            }
-
-            .section-title::before,
-            .section-title::after {
-                display: none;
+                font-size: 36px;
             }
 
             .couple-container {
@@ -826,71 +1296,33 @@
                 gap: 40px;
             }
 
-            .person-photo {
-                width: 200px;
-                height: 200px;
-            }
-
-            .person-title {
-                font-size: 24px;
-            }
-
-            .person-name {
-                font-size: 38px;
-            }
-
-            .parent-name {
-                font-size: 18px;
-            }
-
-            .countdown-item {
-                padding: 20px 25px;
-                min-width: 100px;
-            }
-
-            .countdown-number {
-                font-size: 36px;
-            }
-
-            .function-name {
-                font-size: 32px;
-            }
-
-            .function-date {
-                font-size: 22px;
-            }
-
-            .function-time {
-                font-size: 18px;
-            }
-
-            .blessings-content,
-            .story-content {
+            .person-card {
                 padding: 40px 30px;
             }
 
-            .blessings-title,
-            .story-title {
-                font-size: 32px;
+            .timeline-line {
+                left: 30px;
             }
 
-            .blessings-title-hindi,
-            .story-title-hindi {
-                font-size: 28px;
+            .timeline-item {
+                flex-direction: row !important;
+                transform: translateX(0) !important;
             }
 
-            .blessings-text,
-            .story-text {
-                font-size: 18px;
-                line-height: 1.8;
+            .timeline-content {
+                margin-left: 80px;
+                margin-right: 0;
             }
 
-            .blessings-invite {
-                font-size: 20px;
+            .timeline-content::before {
+                left: -30px !important;
+                right: auto !important;
+                border-right-color: white !important;
+                border-left-color: transparent !important;
             }
 
-            .phone-numbers {
-                flex-direction: column;
+            .countdown-timer {
+                grid-template-columns: repeat(2, 1fr);
                 gap: 20px;
             }
 
@@ -899,161 +1331,345 @@
                 gap: 30px;
             }
 
-            .venue-dates {
-                font-size: 26px;
+            .contact-cards {
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
 
-            .venue-name {
-                font-size: 22px;
+            .functions-slider {
+                border-radius: 15px;
             }
 
-            .venue-address {
-                font-size: 18px;
+            .function-slide {
+                padding: 40px 20px;
             }
 
-            .decorative-corner {
-                width: 40px;
-                height: 40px;
+            .function-name {
+                font-size: 32px;
+            }
+
+            .swipe-indicator {
+                display: flex;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .swipe-indicator {
+                display: none;
+            }
+        }
+
+        /* Advanced Animations */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        /* Particle System */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-gold);
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: particleFloat 6s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(360deg);
+                opacity: 0;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Ganesh Overlay - Appears on Scroll -->
-    <div class="ganesh-overlay" id="ganeshOverlay">
-        <div class="ganesh-content">
-            <img src="ganesh-ji.jpg" alt="Lord Ganesh" class="ganesh-img">
-            <div class="ganesh-text">ॐ गं गणपतये नमः</div>
-        </div>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-mandala"></div>
+        <div class="loading-text">श्रेया & अर्णव</div>
     </div>
 
-    <!-- Hero Section with Parallax Background -->
-    <section class="hero-section">
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">S & A</div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#home">Home</a></li>
+                <li class="nav-item"><a href="#couple">Couple</a></li>
+                <li class="nav-item"><a href="#functions">Functions</a></li>
+                <li class="nav-item"><a href="#timeline">Timeline</a></li>
+                <li class="nav-item"><a href="#venue">Venue</a></li>
+                <li class="nav-item"><a href="#rsvp">RSVP</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Floating Hearts -->
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
         <div class="hero-bg" id="heroBg"></div>
+        <div class="hero-overlay"></div>
         
-        <!-- Welcome Message - Appears on Scroll -->
-        <div class="welcome-message" id="welcomeMessage">
-            <div class="welcome-box">
-                <div class="decorative-corner top-left"></div>
-                <div class="decorative-corner top-right"></div>
-                <div class="decorative-corner bottom-left"></div>
-                <div class="decorative-corner bottom-right"></div>
-                
-                <div class="welcome-text">Smt. Santosh Devi Tibrewal cordially invites you and your family to the auspicious marriage of her granddaughter and seeks your presence & blessings. </div>
-                <div class="divider"></div>
-                <div class="couple-names-welcome">SHREYA & ARNAV</div>
-                <div class="wedding-date-location">10TH FEBRUARY | GHAZIABAD</div>
+        <!-- Floating Ganesh -->
+        <div class="floating-ganesh" id="floatingGanesh">
+            <div class="ganesh-symbol">🕉️</div>
+            <div class="ganesh-mantra">ॐ गं गणपतये नमः</div>
+            <div class="ganesh-translation">Om Gam Ganapataye Namaha</div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-subtitle">Together Forever</div>
+            <h1 class="hero-names">Shreya & Arnav</h1>
+            <div class="hero-date">February 10th, 2026 • Ghaziabad</div>
+            <p class="hero-invitation">
+                With the blessings of our families and the divine grace of Lord Ganesha, 
+                we joyfully invite you to celebrate our union in love and matrimony.
+            </p>
+        </div>
+
+        <div class="scroll-indicator" onclick="scrollToSection('couple')">
+            <div class="scroll-text">SCROLL</div>
+            <div class="scroll-arrow">↓</div>
+        </div>
+    </section>
+    <!-- Meet The Couple Section -->
+    <section class="section couple-section" id="couple">
+        <div class="particles" id="particles1"></div>
+        <div class="section-header">
+            <h2 class="section-title">Meet The Couple</h2>
+            <div class="section-subtitle">जोड़ी</div>
+            <div class="section-divider"></div>
+        </div>
+        
+        <div class="couple-container">
+            <div class="person-card" data-aos="fade-right">
+                <img src="bride-photo.jpg" alt="Shreya" class="person-photo">
+                <div class="person-role">The Bride</div>
+                <h3 class="person-name">Shreya Tibrewal</h3>
+                <div class="parents-section">
+                    <div class="parents-label">Daughter of</div>
+                    <div class="parent-name">Smt. Sangita Tibrewal</div>
+                    <div class="parent-name">Sh. Pradeep Tibrewal</div>
+                </div>
+            </div>
+            
+            <div class="person-card" data-aos="fade-left">
+                <img src="groom-photo.jpg" alt="Arnav" class="person-photo">
+                <div class="person-role">The Groom</div>
+                <h3 class="person-name">Arnav Jain</h3>
+                <div class="parents-section">
+                    <div class="parents-label">Son of</div>
+                    <div class="parent-name">Smt. Rashmi Jain</div>
+                    <div class="parent-name">Sh. Ashish Jain</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Main Content Wrapper -->
-    <div class="content-wrapper">
-        <!-- Meet The Couple Section -->
-        <section class="couple-section">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <br>
-                    जोड़ी / Meet The Couple
-                </h2>
-            </div>
-            
-            <div class="couple-container">
-                <!-- The Bride -->
-                <div class="person-card">
-                    <img src="bride-photo.jpg" alt="Shreya" class="person-photo">
-                    <div class="person-title">The Bride</div>
-                    <div class="person-name">Shreya Tibrewal</div>
-                    <div class="parents-info">
-                        <div class="parents-label">Daughter of</div>
-                        <div class="parent-name">Sangita Tibrewal &</div>
-                        <div class="parent-name">Pradeep Tibrewal</div>
+    <!-- Wedding Functions Section with Swipe -->
+    <section class="section functions-section" id="functions">
+        <div class="section-header">
+            <h2 class="section-title">Wedding Celebrations</h2>
+            <div class="section-subtitle">शादी समारोह</div>
+            <div class="section-divider"></div>
+        </div>
+        
+        <div class="functions-container">
+            <div class="functions-slider">
+                <div class="functions-track" id="functionsTrack">
+                    <!-- Mehendi -->
+                    <div class="function-slide">
+                        <div class="function-icon">🎨</div>
+                        <h3 class="function-name">Mehendi Ceremony</h3>
+                        <div class="function-date">February 6th, 2026</div>
+                        <div class="function-time">4:00 PM Onwards</div>
+                        <p class="function-description">
+                            A beautiful afternoon of henna artistry, music, and celebration as we adorn 
+                            the bride with intricate mehendi designs. Join us for this colorful and 
+                            joyous pre-wedding ritual filled with laughter and traditions.
+                        </p>
+                    </div>
+                    
+                    <!-- Bhaat -->
+                    <div class="function-slide">
+                        <div class="function-icon">🍽️</div>
+                        <h3 class="function-name">Bhaat Ceremony</h3>
+                        <div class="function-date">February 7th, 2026</div>
+                        <div class="function-time">12:00 PM Onwards</div>
+                        <p class="function-description">
+                            A traditional feast where families come together to bless the couple. 
+                            This sacred ceremony involves the preparation and sharing of special 
+                            dishes, symbolizing abundance and prosperity for the new journey ahead.
+                        </p>
+                    </div>
+                    
+                    <!-- Kirtan -->
+                    <div class="function-slide">
+                        <div class="function-icon">🎵</div>
+                        <h3 class="function-name">Sri Khatu Shyam Kirtan</h3>
+                        <div class="function-date">February 8th, 2026</div>
+                        <div class="function-time">5:00 PM Onwards<br><small>(Followed by Mahaprasad)</small></div>
+                        <p class="function-description">
+                            Experience divine blessings through devotional music and prayers dedicated 
+                            to Sri Khatu Shyam Ji. This spiritual evening will fill our hearts with 
+                            devotion and seek blessings for the couple's prosperous future.
+                        </p>
+                    </div>
+                    
+                    <!-- Sangeet -->
+                    <div class="function-slide">
+                        <div class="function-icon">💃</div>
+                        <h3 class="function-name">Sangeet Night</h3>
+                        <div class="function-date">February 9th, 2026</div>
+                        <div class="function-time">7:00 PM Onwards</div>
+                        <p class="function-description">
+                            An evening of music, dance, and entertainment as both families come 
+                            together to celebrate. Join us for performances, games, and unforgettable 
+                            moments that will create memories to last a lifetime.
+                        </p>
+                    </div>
+                    
+                    <!-- Haldi -->
+                    <div class="function-slide">
+                        <div class="function-icon">🌼</div>
+                        <h3 class="function-name">Haldi Ceremony</h3>
+                        <div class="function-date">February 10th, 2026</div>
+                        <div class="function-time">9:00 AM</div>
+                        <p class="function-description">
+                            A vibrant morning ritual where turmeric paste is applied to the bride 
+                            and groom for purification and blessings. This joyous ceremony is filled 
+                            with laughter, colors, and the warmth of family traditions.
+                        </p>
+                    </div>
+                    
+                    <!-- Wedding -->
+                    <div class="function-slide">
+                        <div class="function-icon">💒</div>
+                        <h3 class="function-name">Wedding & Reception</h3>
+                        <div class="function-date">February 10th, 2026</div>
+                        <div class="function-time">7:00 PM Onwards</div>
+                        <p class="function-description">
+                            The most sacred moment as two souls unite in the presence of family, 
+                            friends, and divine blessings. Join us for the wedding ceremony followed 
+                            by a grand reception celebrating love, unity, and new beginnings.
+                        </p>
                     </div>
                 </div>
-
-                <!-- The Groom -->
-                <div class="person-card">
-                    <img src="groom-photo.jpg" alt="Arnav" class="person-photo">
-                    <div class="person-title">The Groom</div>
-                    <div class="person-name">Arnav Jain</div>
-                    <div class="parents-info">
-                        <div class="parents-label">Son of</div>
-                        <div class="parent-name">Rashmi Jain &</div>
-                        <div class="parent-name">Ashish Jain</div>
-                    </div>
+                
+                <div class="swipe-indicator">
+                    <span class="swipe-icon">👆</span>
+                    <span>Swipe to explore events</span>
                 </div>
             </div>
-        </section>
+            
+            <div class="slider-controls">
+                <button class="slider-btn" id="prevBtn">‹</button>
+                <div class="slider-dots" id="sliderDots"></div>
+                <button class="slider-btn" id="nextBtn">›</button>
+            </div>
+        </div>
+    </section>
 
-<!-- Wedding Functions Section -->
-        <section class="functions-section">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <br>
-                   शादी समारोह / Wedding Celebrations
-                </h2>
+    <!-- Timeline Section -->
+    <section class="section timeline-section" id="timeline">
+        <div class="section-header">
+            <h2 class="section-title">Our Journey</h2>
+            <div class="section-subtitle">हमारी यात्रा</div>
+            <div class="section-divider"></div>
+        </div>
+        
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+            
+            <div class="timeline-item">
+                <div class="timeline-icon">💕</div>
+                <div class="timeline-content">
+                    <div class="timeline-date">The Beginning</div>
+                    <h3 class="timeline-title">First Meeting</h3>
+                    <p class="timeline-description">
+                        Our story began with a chance encounter that felt like destiny. 
+                        What started as a simple conversation blossomed into something beautiful and eternal.
+                    </p>
+                </div>
             </div>
             
-            <div class="functions-container">
-                        <!-- Mehendi -->
-        <div class="function-card">
-            <div class="function-name">Mehendi</div>
-            <div class="divider"></div>
-            <div class="function-date">7th February 2026</div>
-            <div class="function-time">10AM-7PM</div>
-        </div>
-
-        <!-- Bhaat and Parojan -->
-        <div class="function-card">
-            <div class="function-name">Bhaat & Parojan</div>
-            <div class="divider"></div>
-            <div class="function-date">8th February 2026</div>
-            <div class="function-time">10AM Onwards</div>
-        </div>
-
-        <!-- Kirtan -->
-        <div class="function-card">
-            <div class="function-name">Sri Khatu Shyam Kirtan</div>
-            <div class="divider"></div>
-            <div class="function-date">8th February 2026</div>
-            <div class="function-time">5PM Onwards</div>
-        </div>
-
-        <!-- Engagement & Sangeet -->
-        <div class="function-card">
-            <div class="function-name">Ring Ceremony & Sangeet</div>
-            <div class="divider"></div>
-            <div class="function-date">9th February 2026</div>
-            <div class="function-time">11AM-3PM</div>
-        </div>
-
-        <!-- Haldi -->
-        <div class="function-card">
-            <div class="function-name">Haldi</div>
-            <div class="divider"></div>
-            <div class="function-date">10th February 2026</div>
-            <div class="function-time">10AM Onwards</div>
-        </div>
-
-        <!-- Shaadi & Reception -->
-        <div class="function-card">
-            <div class="function-name">Shaadi & Reception</div>
-            <div class="divider"></div>
-            <div class="function-date">10th February 2026</div>
-            <div class="function-time">7PM Onwards</div>
-        </div>
-    </div>
-</section>
-
-
-        <!-- Countdown Section -->
-        <section class="countdown-section">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <br>
-                    बस कुछ पल बाकी / Counting Down To Forever
-                </h2>
+            <div class="timeline-item">
+                <div class="timeline-icon">🌟</div>
+                <div class="timeline-content">
+                    <div class="timeline-date">Growing Together</div>
+                    <h3 class="timeline-title">Building Dreams</h3>
+                    <p class="timeline-description">
+                        Through shared dreams, laughter, and countless memories, we discovered 
+                        that we were meant to walk this journey of life together, hand in hand.
+                    </p>
+                </div>
             </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-icon">💍</div>
+                <div class="timeline-content">
+                    <div class="timeline-date">The Proposal</div>
+                    <h3 class="timeline-title">Forever Promise</h3>
+                    <p class="timeline-description">
+                        With hearts full of love and hope for the future, we decided to take 
+                        the next step in our journey and commit to a lifetime of togetherness.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-icon">🎉</div>
+                <div class="timeline-content">
+                    <div class="timeline-date">February 10th, 2026</div>
+                    <h3 class="timeline-title">Our Wedding Day</h3>
+                    <p class="timeline-description">
+                        The day we've been dreaming of - when we'll unite as one in the presence 
+                        of our loved ones, beginning our new chapter as husband and wife.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Countdown Section -->
+    <section class="section countdown-section" id="countdown">
+        <div class="section-header">
+            <h2 class="section-title">Counting Down to Forever</h2>
+            <div class="section-subtitle">बस कुछ पल बाकी</div>
+            <div class="section-divider"></div>
+        </div>
+        
+        <div class="countdown-container">
             <div class="countdown-timer">
                 <div class="countdown-item">
                     <div class="countdown-number" id="days">00</div>
@@ -1072,215 +1688,471 @@
                     <div class="countdown-label">Seconds</div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Our Story Section -->
-        <section class="story-section">
-            <div class="story-bg"></div>
-            <div class="story-overlay"></div>
-            <div class="story-content">
-                <h2 class="story-title">
-                    <br>
-                    हमारी कहानी / Our Story
-                </h2>
-                <div class="divider"></div>
-                <p class="story-text">
-                    Shreya and Arnav's journey began with shared smiles and endless conversations. Now, surrounded by family and friends, we are ready to embark on this beautiful lifelong adventure together.
-                </p>
+    <!-- Our Story Section -->
+    <section class="section story-section" id="story">
+        <div class="story-bg" id="storyBg"></div>
+        <div class="story-overlay"></div>
+        
+        <div class="story-content">
+            <h2 class="story-title">Our Love Story</h2>
+            <p class="story-text">
+                In the tapestry of life, some threads are meant to intertwine. Our story began 
+                with shared smiles and heartfelt conversations, growing into a love that 
+                transcends time and space.
+            </p>
+            <p class="story-text">
+                Through every season of joy and challenge, we've discovered that together 
+                we are stronger, happier, and more complete. With the blessings of our families 
+                and the divine grace above, we're ready to begin this beautiful journey as one.
+            </p>
+            <div class="story-quote">
+                "Two hearts, one soul, infinite love"
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Blessings Section -->
-        <section class="blessings-section">
-            <div class="blessings-bg"></div>
-            <div class="blessings-overlay"></div>
-            <div class="blessings-content">
-                <h2 class="blessings-title">
-                    <br>
-                   आशीर्वाद / Blessings
-                </h2>
-                <div class="divider"></div>
-                <p class="blessings-text">
-                    With the gracious blessings of our parents, elders, and Lord Ganesha, we invite you to be a part of our joyous union.
-                </p>
-                <p class="blessings-text">
-                    May this new chapter be filled with love, happiness, and prosperity.
-                </p>
-                <p class="blessings-invite">
-                    पधारो सा! We cordially invite you and your family to grace the occasion with your presence.
-                </p>
-            </div>
-        </section>
-
-        <!-- Venue Section -->
-        <section class="venue-section">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <br>
-                    स्थान और दिशा-निर्देश / Venue & Directions
-                </h2>
+    <!-- Venue Section -->
+    <section class="section venue-section" id="venue">
+        <div class="section-header">
+            <h2 class="section-title">Venue & Directions</h2>
+            <div class="section-subtitle">स्थान और दिशा-निर्देश</div>
+            <div class="section-divider"></div>
+        </div>
+        
+        <div class="venue-container">
+            <div class="venue-card">
+                <div class="venue-image">🎵</div>
+                <div class="venue-content">
+                    <h3 class="venue-name">Kirtan Venue</h3>
+                    <p class="venue-address">
+                        Rajasthan Bhawan<br>
+                        Sector 10, Faridabad<br>
+                        Haryana, India
+                    </p>
+                    <a href="https://www.google.com/maps/place/Rajasthan+Seva+Sadan/@28.3728524,77.3240357,14.64z/data=!4m15!1m8!3m7!1s0x390cdc5dbe9eb49b:0xa59b4bf6e01cbf45!2sRajasthan+Seva+Sadan!8m2!3d28.3815833!4d77.3240137!10e5!16s%2Fg%2F11c1wtf68z!3m5!1s0x390cdc5dbe9eb49b:0xa59b4bf6e01cbf45!8m2!3d28.3815833!4d77.3240137!16s%2Fg%2F11c1wtf68z!5m1!1e2?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA3MUgBUAM%3D" 
+                       target="_blank" class="venue-button">
+                        <i class="fas fa-map-marker-alt"></i>
+                        View on Google Maps
+                    </a>
+                </div>
             </div>
             
-            <div class="venue-container">
-                <!-- Mehendi Venue -->
-                <div class="venue-box">
-                    <div class="divider"></div>
-                    <div class="venue-details">
-                        <div class="venue-name">Mehendi Ceremony</div>
-                        <div class="venue-address">Rajasthan Bhawan, Sector 10, Faridabad</div>
-                        <a href="https://www.google.com/maps/place/Rajasthan+Seva+Sadan/@28.3728524,77.3240357,14.64z/data=!4m15!1m8!3m7!1s0x390cdc5dbe9eb49b:0xa59b4bf6e01cbf45!2sRajasthan+Seva+Sadan!8m2!3d28.3815833!4d77.3240137!10e5!16s%2Fg%2F11c1wtf68z!3m5!1s0x390cdc5dbe9eb49b:0xa59b4bf6e01cbf45!8m2!3d28.3815833!4d77.3240137!16s%2Fg%2F11c1wtf68z!5m1!1e2?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA3MUgBUAM%3D" target="_blank" class="map-button">View on Google Maps</a>
-                    </div>
-                </div>
-
-                <!-- Kirtan Venue -->
-                <div class="venue-box">
-                    <div class="divider"></div>
-                <div class="venue-details">
-                    <div class="venue-name">Kirtan</div>
-                    <div class="venue-address">Rajasthan Bhawan, Sector 10, Faridabad</div>
-                    <a href="https://www.google.com/maps/place/Rajasthan+Seva+Sadan/@28.3728524,77.3240357,14.64z/data=!4m15!1m8!3m7!1s0x390cdc5dbe9eb49b:0xa59b4bf6e01cbf45!2sRajasthan+Seva+Sadan!8m2!3d28.3815833!4d77.3240137!10e5!16s%2Fg%2F11c1wtf68z!3m5!1s0x390cdc5dbe9eb49b:0xa59b4bf6e01cbf45!8m2!3d28.3815833!4d77.3240137!16s%2Fg%2F11c1wtf68z!5m1!1e2?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA3MUgBUAM%3D" target="_blank" class="map-button">View on Google Maps</a>
-                </div>
-            </div>
-
-            <!-- Engagement & Sangeet Venue -->
-            <div class="venue-box">
-                <div class="divider"></div>
-                <div class="venue-details">
-                    <div class="venue-name">Engagement & Sangeet</div>
-                    <div class="venue-address">Queens Hall, Hollywood Dreams, Vaishali</div>
-                    <a href="https://maps.app.goo.gl/p61JncY1WvQ6NkMHA?g_st=ic" target="_blank" class="map-button">View on Google Maps</a>
-                </div>
-            </div>
-
-            <!-- Haldi & Shaadi Venue -->
-            <div class="venue-box">
-                <div class="divider"></div>
-                <div class="venue-details">
-                    <div class="venue-name">Haldi & Shaadi</div>
-                    <div class="venue-address">Kings hall, Hollywood Dreams, Vaishali</div>
-                    <a href="https://maps.app.goo.gl/p61JncY1WvQ6NkMHA?g_st=ic" target="_blank" class="map-button">View on Google Maps</a>
+            <div class="venue-card">
+                <div class="venue-image">💒</div>
+                <div class="venue-content">
+                    <h3 class="venue-name">Wedding Venue</h3>
+                    <p class="venue-address">
+                        Kings Hall, Hollywood Dreams<br>
+                        Vaishali, Ghaziabad<br>
+                        Uttar Pradesh, India
+                    </p>
+                    <a href="https://maps.app.goo.gl/p61JncY1WvQ6NkMHA?g_st=ic" 
+                       target="_blank" class="venue-button">
+                        <i class="fas fa-map-marker-alt"></i>
+                        View on Google Maps
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- RSVP Section -->
-    <section class="rsvp-section">
+    <section class="section rsvp-section" id="rsvp">
         <div class="section-header">
-            <h2 class="section-title">
-                <br>
-               आरएसवीपी / RSVP
-                <br>
-                TIBREWAL FAMILY
-            </h2>
+            <h2 class="section-title">RSVP</h2>
+            <div class="section-subtitle">Tibrewal Family</div>
+            <div class="section-divider"></div>
         </div>
-        <p class="rsvp-text">Your presence would make our special day even more memorable. For any query, please contact us.</p>
         
-        <div class="phone-numbers">
-            <div class="phone-card">
-                <div class="phone-label">Pradeep Tibrewal</div>
-                <a href="tel:+919810559589" class="phone-link">+919810559589</a>
-            </div>
-            <div class="phone-card">
-                <div class="phone-label">Sangita Tibrewal</div>
-                <a href="tel:+919871091295" class="phone-link">+919871091295</a>
+        <div class="rsvp-container">
+            <p class="rsvp-text">
+                Your presence would make our special day even more memorable. 
+                We would be honored to celebrate this joyous occasion with you.
+            </p>
+            
+            <div class="contact-cards">
+                <div class="contact-card">
+                    <div class="contact-name">Pradeep Tibrewal</div>
+                    <a href="tel:+919810559589" class="contact-phone">
+                        <i class="fas fa-phone"></i> +91 98105 59589
+                    </a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-name">Sangita Tibrewal</div>
+                    <a href="tel:+919871091295" class="contact-phone">
+                        <i class="fas fa-phone"></i> +91 98710 91295
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-love"># DilhaiSHayaARna</div>
+        <div class="footer-content">
+            <div class="footer-hashtag">#DilhaiSHayARana</div>
+            <p class="footer-text">
+                With love and gratitude, we look forward to celebrating 
+                this beautiful beginning with all our dear ones.
+            </p>
+        </div>
     </footer>
-</div>
 
-<script>
-    // Scroll Effects
-    let ticking = false;
-
-    function updateScroll() {
-        const scrolled = window.pageYOffset;
-        const windowHeight = window.innerHeight;
+    <script>
+        // Advanced JavaScript for Premium Wedding Website
         
-        // Hero background blur and scale effect
-        const heroBg = document.getElementById('heroBg');
-        if (heroBg) {
-            const blur = Math.min(scrolled / 50, 10);
-            const scale = Math.max(1 - (scrolled / 2000), 0.8);
-            const brightness = Math.max(1 - (scrolled / 800), 0.3);
-            heroBg.style.filter = `blur(${blur}px) brightness(${brightness})`;
-            heroBg.style.transform = `scale(${scale})`;
+        // Loading Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('fade-out');
+                setTimeout(() => {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                }, 1000);
+            }, 2000);
+        });
+
+        // Smooth Scrolling
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
         }
-        
-        // Ganesh overlay appears after some scroll
-        const ganeshOverlay = document.getElementById('ganeshOverlay');
-        if (scrolled > 100) {
-            ganeshOverlay.classList.add('visible');
-        } else {
-            ganeshOverlay.classList.remove('visible');
+
+        // Parallax Effects
+        let ticking = false;
+
+        function updateParallax() {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            const rate2 = scrolled * -0.3;
+            
+            // Hero background parallax
+            const heroBg = document.getElementById('heroBg');
+            if (heroBg) {
+                heroBg.style.transform = `translate3d(0, ${rate}px, 0)`;
+            }
+            
+            // Story background parallax
+            const storyBg = document.getElementById('storyBg');
+            if (storyBg) {
+                const storySection = document.querySelector('.story-section');
+                const rect = storySection.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    storyBg.style.transform = `translate3d(0, ${rate2}px, 0)`;
+                }
+            }
+            
+            // Floating Ganesh fade effect
+            const floatingGanesh = document.getElementById('floatingGanesh');
+            if (scrolled > 200) {
+                floatingGanesh.classList.add('fade-out');
+            } else {
+                floatingGanesh.classList.remove('fade-out');
+            }
+            
+            // Navbar visibility
+            const navbar = document.getElementById('navbar');
+            if (scrolled > 100) {
+                navbar.classList.add('visible');
+            } else {
+                navbar.classList.remove('visible');
+            }
+            
+            ticking = false;
         }
-        
-        // Welcome message appears and stays for a while
-        const welcomeMessage = document.getElementById('welcomeMessage');
-        if (scrolled > 200 && scrolled < 1000) {
-            welcomeMessage.classList.add('visible');
-        } else {
-            welcomeMessage.classList.remove('visible');
-        }
-        
-        ticking = false;
-    }
 
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(updateScroll);
-            ticking = true;
-        }
-    });
-
-    // Initial call
-    updateScroll();
-
-    // Countdown Timer to 10th February 2026
-    function updateCountdown() {
-        const weddingDate = new Date('2026-02-10T19:00:00').getTime();;
-        const now = new Date().getTime();
-        const distance = weddingDate - now;
-
-        if (distance > 0) {
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById('days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-        } else {
-            document.querySelector('.countdown-timer').innerHTML = '<h3 style="color: var(--gold); font-size: 36px; font-family: Cinzel, serif;">The Wedding Day Has Arrived! 🎉</h3>';
-        }
-    }
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-
-    // Intersection Observer for Cards
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateParallax);
+                ticking = true;
             }
         });
-    }, observerOptions);
 
-    document.querySelectorAll('.function-card, .venue-card').forEach(card => {
-        observer.observe(card);
-    });
-</script>
-</body> </html>
+        // Intersection Observer for Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const elementsToAnimate = document.querySelectorAll(
+                '.section-header, .person-card, .timeline-item, .venue-card'
+            );
+            elementsToAnimate.forEach(el => observer.observe(el));
+        });
+
+        // Functions Slider with Touch Support
+        class FunctionsSlider {
+            constructor() {
+                this.track = document.getElementById('functionsTrack');
+                this.slides = this.track.children;
+                this.currentSlide = 0;
+                this.totalSlides = this.slides.length;
+                this.isAnimating = false;
+                
+                this.init();
+            }
+            
+            init() {
+                this.createDots();
+                this.bindEvents();
+                this.updateSlider();
+                this.startAutoPlay();
+            }
+            
+            createDots() {
+                const dotsContainer = document.getElementById('sliderDots');
+                for (let i = 0; i < this.totalSlides; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'slider-dot';
+                    dot.addEventListener('click', () => this.goToSlide(i));
+                    dotsContainer.appendChild(dot);
+                }
+            }
+            
+            bindEvents() {
+                document.getElementById('prevBtn').addEventListener('click', () => this.prevSlide());
+                document.getElementById('nextBtn').addEventListener('click', () => this.nextSlide());
+                
+                // Touch events
+                let startX = 0;
+                let currentX = 0;
+                let isDragging = false;
+                
+                this.track.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                    isDragging = true;
+                    this.pauseAutoPlay();
+                });
+                
+                this.track.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+                    currentX = e.touches[0].clientX;
+                    const diff = startX - currentX;
+                    
+                    if (Math.abs(diff) > 50) {
+                        if (diff > 0) {
+                            this.nextSlide();
+                        } else {
+                            this.prevSlide();
+                        }
+                        isDragging = false;
+                    }
+                });
+                
+                this.track.addEventListener('touchend', () => {
+                    isDragging = false;
+                    this.startAutoPlay();
+                });
+            }
+            
+            updateSlider() {
+                if (this.isAnimating) return;
+                this.isAnimating = true;
+                
+                const translateX = -this.currentSlide * 100;
+                this.track.style.transform = `translateX(${translateX}%)`;
+                
+                // Update dots
+                const dots = document.querySelectorAll('.slider-dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === this.currentSlide);
+                });
+                
+                setTimeout(() => {
+                    this.isAnimating = false;
+                }, 500);
+            }
+            
+            nextSlide() {
+                this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+                this.updateSlider();
+            }
+            
+            prevSlide() {
+                this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+                this.updateSlider();
+            }
+            
+            goToSlide(index) {
+                this.currentSlide = index;
+                this.updateSlider();
+            }
+            
+            startAutoPlay() {
+                this.autoPlayInterval = setInterval(() => {
+                    this.nextSlide();
+                }, 5000);
+            }
+            
+            pauseAutoPlay() {
+                clearInterval(this.autoPlayInterval);
+            }
+        }
+
+        // Initialize slider when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new FunctionsSlider();
+        });
+
+        // Countdown Timer
+        function updateCountdown() {
+            const weddingDate = new Date('2026-02-10T19:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            if (distance > 0) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            } else {
+                document.querySelector('.countdown-timer').innerHTML = 
+                    '<div style="grid-column: 1/-1; font-size: 32px; color: var(--secondary-gold);">The Wedding Day Has Arrived! 🎉</div>';
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Floating Hearts Animation
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💖';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+            
+            document.getElementById('floatingHearts').appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 8000);
+        }
+
+        // Create floating hearts periodically
+        setInterval(createFloatingHeart, 3000);
+
+        // Particle System
+        function createParticles() {
+            const particleContainers = document.querySelectorAll('.particles');
+            
+            particleContainers.forEach(container => {
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        const particle = document.createElement('div');
+                        particle.className = 'particle';
+                        particle.style.left = Math.random() * 100 + '%';
+                        particle.style.animationDelay = Math.random() * 6 + 's';
+                        particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                        
+                        container.appendChild(particle);
+                        
+                        setTimeout(() => {
+                            particle.remove();
+                        }, 7000);
+                    }, i * 300);
+                }
+            });
+        }
+
+        // Create particles periodically
+        setInterval(createParticles, 10000);
+        createParticles(); // Initial creation
+
+        // Advanced Mouse Interactions
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            // Subtle parallax effect on hero background
+            const heroBg = document.getElementById('heroBg');
+            if (heroBg && window.pageYOffset < window.innerHeight) {
+                const moveX = (mouseX - 0.5) * 20;
+                const moveY = (mouseY - 0.5) * 20;
+                heroBg.style.transform += ` translate(${moveX}px, ${moveY}px)`;
+            }
+        });
+
+        // Smooth reveal animations
+        const revealElements = document.querySelectorAll('.person-card, .timeline-item, .venue-card');
+        
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 200);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(50px)';
+            el.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            revealObserver.observe(el);
+        });
+
+        // Add shimmer effect to gold elements on hover
+        document.addEventListener('DOMContentLoaded', () => {
+            const goldElements = document.querySelectorAll('.section-divider, .venue-button, .contact-card');
+            
+            goldElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    el.classList.add('shimmer');
+                });
+                
+                el.addEventListener('mouseleave', () => {
+                    el.classList.remove('shimmer');
+                });
+            });
+        });
+
+        // Performance optimization
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                // Recalculate positions and sizes if needed
+                updateParallax();
+            }, 250);
+        });
+
+        // Preload critical images
+        const criticalImages = [
+            'hero-image-new.jpg',
+            'our-story.jpg',
+            'bride-photo.jpg',
+            'groom-photo.jpg'
+        ];
+
+        criticalImages.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+
+        console.log('🎉 Premium Wedding Website Loaded Successfully! 🎉');
+    </script>
+</body>
+</html>
